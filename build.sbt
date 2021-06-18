@@ -1,23 +1,22 @@
 lazy val commonSettings = Seq(
-  libraryDependencies += compilerPlugin(("org.typelevel" %% "kind-projector" % "0.13.0").cross(CrossVersion.patch)),
+  Compile / compile / javacOptions ++= Seq("-source", "1.8", "-target", "1.8"),
   libraryDependencies ++= {
     CrossVersion.partialVersion(scalaVersion.value) match {
-      case Some((2, _)) => compilerPlugin("com.olegpy" %% "better-monadic-for" % "0.3.1") :: Nil
-      case _ => Nil
+      case Some((2, _)) =>
+        Seq(compilerPlugin(Dependencies.kindProjector), compilerPlugin(Dependencies.betterMonadicFor))
+      case _ => Seq.empty
     }
   },
-  Compile / compile / javacOptions ++= Seq("-source", "1.8", "-target", "1.8"),
   scalacOptions := {
-    val opts = scalacOptions.value :+ "-Wconf:src=src_managed/.*:s,any:wv"
-
+    val opts = scalacOptions.value
+    val wconf = "-Wconf:any:wv"
     CrossVersion.partialVersion(scalaVersion.value) match {
-      case Some((2, 12)) => opts.filterNot(Set("-Xfatal-warnings"))
+      case Some((2, _)) => opts :+ wconf
       case _ => opts
     }
   },
   Test / fork := true,
   resolvers += Resolver.sonatypeRepo("releases"),
-  ThisBuild / evictionErrorLevel := Level.Warn,
 )
 
 lazy val noPublishSettings =
@@ -73,6 +72,6 @@ lazy val `stackdriver-http-exporter` =
         Dependencies.trace4catsExporterCommon,
         Dependencies.trace4catsExporterHttp
       ),
-      libraryDependencies ++= Dependencies.test.map(_ % Test)
+      libraryDependencies ++= Seq(Dependencies.trace4catsTestkit).map(_ % Test)
     )
     .dependsOn(`stackdriver-common`)

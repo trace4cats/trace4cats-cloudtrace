@@ -29,7 +29,7 @@ object GoogleAccountParser {
 
   final def parse(path: Path): Either[Throwable, GoogleServiceAccount] =
     for {
-      string <- Either.catchNonFatal(Files.readString(path))
+      string <- Either.catchNonFatal(new String(Files.readAllBytes(path)))
       json <- io.circe.parser.parse(string)
       serviceAccount <- json.as[JsonGoogleServiceAccount]
       gsa <- Either.catchNonFatal {

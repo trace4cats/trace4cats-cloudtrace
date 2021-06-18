@@ -22,14 +22,18 @@ object Dependencies {
     val scalaCheck = "1.15.4"
     val scalaCheckShapeless = "1.3.0"
     val scalaTest = "3.2.9"
+
+    val kindProjector = "0.13.0"
+    val betterMonadicFor = "0.3.1"
   }
 
   lazy val trace4catsExporterCommon = "io.janstenpickle" %% "trace4cats-exporter-common" % Versions.trace4cats
   lazy val trace4catsExporterHttp = "io.janstenpickle"   %% "trace4cats-exporter-http"   % Versions.trace4cats
   lazy val trace4catsKernel = "io.janstenpickle"         %% "trace4cats-kernel"          % Versions.trace4cats
   lazy val trace4catsJaegerIntegrationTest =
-    "io.janstenpickle"                          %% "trace4cats-jaeger-integration-test" % Versions.trace4cats
-  lazy val trace4catsModel = "io.janstenpickle" %% "trace4cats-model"                   % Versions.trace4cats
+    "io.janstenpickle"                            %% "trace4cats-jaeger-integration-test" % Versions.trace4cats
+  lazy val trace4catsModel = "io.janstenpickle"   %% "trace4cats-model"                   % Versions.trace4cats
+  lazy val trace4catsTestkit = "io.janstenpickle" %% "trace4cats-testkit"                 % Versions.trace4cats
 
   lazy val circeGeneric = "io.circe"            %% "circe-generic-extras"            % Versions.circe
   lazy val circeParser = "io.circe"             %% "circe-parser"                    % Versions.circe
@@ -40,27 +44,6 @@ object Dependencies {
   lazy val jwt = "com.auth0"                     % "java-jwt"                        % Versions.jwt
   lazy val log4cats = "org.typelevel"           %% "log4cats-slf4j"                  % Versions.log4cats
 
-  lazy val catsLaws = "org.typelevel"             %% "cats-laws"              % Versions.cats
-  lazy val catsEffectLaws = "org.typelevel"       %% "cats-effect-laws"       % Versions.catsEffect
-  lazy val catsEffectTestkit = "org.typelevel"    %% "cats-effect-testkit"    % Versions.catsEffect
-  lazy val catsTestkitScalatest = "org.typelevel" %% "cats-testkit-scalatest" % Versions.catsTestkitScalatest
-  lazy val disciplineScalatest = "org.typelevel"  %% "discipline-scalatest"   % Versions.disciplineScalatest
-  lazy val disciplineCore = "org.typelevel"       %% "discipline-core"        % Versions.discipline
-  lazy val scalacheck = "org.scalacheck"          %% "scalacheck"             % Versions.scalaCheck
-  lazy val scalacheckShapeless =
-    "com.github.alexarchambault"       %% "scalacheck-shapeless_1.15" % Versions.scalaCheckShapeless
-  lazy val scalaTest = "org.scalatest" %% "scalatest"                 % Versions.scalaTest
-
-  lazy val test =
-    Seq(
-      catsLaws,
-      catsEffectLaws,
-      catsEffectTestkit,
-      catsTestkitScalatest,
-      disciplineScalatest,
-      disciplineCore,
-      scalacheck,
-      scalacheckShapeless,
-      scalaTest
-    )
+  lazy val kindProjector = ("org.typelevel" % "kind-projector"     % Versions.kindProjector).cross(CrossVersion.full)
+  lazy val betterMonadicFor = "com.olegpy" %% "better-monadic-for" % Versions.betterMonadicFor
 }
