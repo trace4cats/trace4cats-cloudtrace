@@ -13,7 +13,7 @@ object Dependencies {
     val googleCredentials = "0.26.0"
     val googleCloudTrace = "1.4.1"
     val http4s = "0.23.0-RC1"
-    val jwt = "3.16.0"
+    val jwt = "3.17.0"
     val log4cats = "2.1.1"
 
     val catsTestkitScalatest = "2.1.5"
