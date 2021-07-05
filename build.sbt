@@ -46,6 +46,7 @@ lazy val `stackdriver-grpc-exporter` =
     .settings(
       name := "trace4cats-stackdriver-grpc-exporter",
       libraryDependencies ++= Seq(
+        Dependencies.collectionCompat,
         Dependencies.googleCredentials,
         Dependencies.googleCloudTrace,
         Dependencies.trace4catsModel,
