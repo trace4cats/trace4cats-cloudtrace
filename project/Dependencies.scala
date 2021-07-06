@@ -6,7 +6,7 @@ object Dependencies {
     val scala213 = "2.13.6"
 
     val trace4cats = "0.12.0-RC1+191-347e4fc7"
-    val trace4catsExporterHttp = "0.12.0-RC1+162-70070fb2"
+    val trace4catsExporterHttp = "0.12.0-RC2"
 
     val cats = "2.6.1"
     val catsEffect = "3.1.1"
