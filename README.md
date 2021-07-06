@@ -11,8 +11,8 @@
 Add it to your `build.sbt`:
 
 ```scala
-"io.janstenpickle" %% "trace4cats-stackdriver-grpc-exporter" % "<version>"
-"io.janstenpickle" %% "trace4cats-stackdriver-http-exporter" % "<version>"
+"io.janstenpickle" %% "trace4cats-stackdriver-grpc-exporter" % "0.12.0-RC2"
+"io.janstenpickle" %% "trace4cats-stackdriver-http-exporter" % "0.12.0-RC2"
 ```
 
 
