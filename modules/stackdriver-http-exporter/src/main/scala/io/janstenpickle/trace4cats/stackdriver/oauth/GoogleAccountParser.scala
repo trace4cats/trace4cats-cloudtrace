@@ -11,20 +11,20 @@ import java.util.regex.Pattern
 
 import cats.syntax.either._
 import io.circe.Codec
-import io.circe.generic.extras.semiauto._
+import io.circe.generic.semiauto._
 
 object GoogleAccountParser {
   case class JsonGoogleServiceAccount(
     `type`: String,
-    projectId: String,
-    privateKeyId: String,
-    privateKey: String,
-    clientEmail: String,
-    authUri: String
+    project_id: String,
+    private_key_id: String,
+    private_key: String,
+    client_email: String,
+    auth_uri: String
   )
 
   object JsonGoogleServiceAccount {
-    implicit final val codec: Codec[JsonGoogleServiceAccount] = deriveConfiguredCodec
+    implicit final val codec: Codec[JsonGoogleServiceAccount] = deriveCodec
   }
 
   final def parse(path: Path): Either[Throwable, GoogleServiceAccount] =
@@ -33,10 +33,10 @@ object GoogleAccountParser {
       json <- io.circe.parser.parse(string)
       serviceAccount <- json.as[JsonGoogleServiceAccount]
       gsa <- Either.catchNonFatal {
-        val spec = new PKCS8EncodedKeySpec(loadPem(serviceAccount.privateKey))
+        val spec = new PKCS8EncodedKeySpec(loadPem(serviceAccount.private_key))
         val kf = KeyFactory.getInstance("RSA")
         GoogleServiceAccount(
-          clientEmail = serviceAccount.clientEmail,
+          clientEmail = serviceAccount.client_email,
           privateKey = kf.generatePrivate(spec).asInstanceOf[RSAPrivateKey]
         )
       }

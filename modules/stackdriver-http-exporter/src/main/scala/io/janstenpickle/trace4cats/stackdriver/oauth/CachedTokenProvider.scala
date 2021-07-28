@@ -17,7 +17,7 @@ object CachedTokenProvider {
         private def refreshToken =
           underlying.accessToken.flatTap { token =>
             Clock[F].realTime.flatMap { now =>
-              ref.set(Some((now + token.expiresIn.seconds - expiryOffset, token)))
+              ref.set(Some((now + token.expires_in.seconds - expiryOffset, token)))
             }
           }
 
@@ -28,7 +28,7 @@ object CachedTokenProvider {
               for {
                 now <- Clock[F].realTime
                 t <-
-                  if (now < expiresAt) token.copy(expiresIn = (expiresAt - now).toSeconds).pure[F]
+                  if (now < expiresAt) token.copy(expires_in = (expiresAt - now).toSeconds).pure[F]
                   else refreshToken
               } yield t
           }
