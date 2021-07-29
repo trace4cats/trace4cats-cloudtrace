@@ -23,7 +23,8 @@ class OAuthTokenProvider[F[_]: MonadThrow: Clock](emailAddress: String, scope: L
 object OAuthTokenProvider {
   def apply[F[_]: Async: Logger](serviceAccountPath: String, httpClient: Client[F]): F[OAuthTokenProvider[F]] =
     for {
-      serviceAccount <- Async[F].fromEither(GoogleAccountParser.parse(new File(serviceAccountPath).toPath))
+      path <- Sync[F].delay(new File(serviceAccountPath).toPath)
+      serviceAccount <- GoogleAccountParser.parse(path)
     } yield new OAuthTokenProvider(
       serviceAccount.clientEmail,
       List("https://www.googleapis.com/auth/trace.append"),
