@@ -13,20 +13,20 @@ import cats.effect.kernel.Sync
 import cats.syntax.flatMap._
 import cats.syntax.functor._
 import io.circe.Codec
-import io.circe.generic.extras.semiauto._
+import io.circe.generic.semiauto._
 
 object GoogleAccountParser {
   case class JsonGoogleServiceAccount(
     `type`: String,
-    projectId: String,
-    privateKeyId: String,
-    privateKey: String,
-    clientEmail: String,
-    authUri: String
+    project_id: String,
+    private_key_id: String,
+    private_key: String,
+    client_email: String,
+    auth_uri: String
   )
 
   object JsonGoogleServiceAccount {
-    implicit final val codec: Codec[JsonGoogleServiceAccount] = deriveConfiguredCodec
+    implicit final val codec: Codec[JsonGoogleServiceAccount] = deriveCodec
   }
 
   final def parse[F[_]](path: Path)(implicit F: Sync[F]): F[GoogleServiceAccount] =
@@ -35,10 +35,10 @@ object GoogleAccountParser {
       json <- F.fromEither(io.circe.parser.parse(string))
       serviceAccount <- F.fromEither(json.as[JsonGoogleServiceAccount])
       gsa <- F.delay {
-        val spec = new PKCS8EncodedKeySpec(loadPem(serviceAccount.privateKey))
+        val spec = new PKCS8EncodedKeySpec(loadPem(serviceAccount.private_key))
         val kf = KeyFactory.getInstance("RSA")
         GoogleServiceAccount(
-          clientEmail = serviceAccount.clientEmail,
+          clientEmail = serviceAccount.client_email,
           privateKey = kf.generatePrivate(spec).asInstanceOf[RSAPrivateKey]
         )
       }

@@ -3,7 +3,6 @@ package io.janstenpickle.trace4cats.stackdriver.oauth
 import cats.effect.IO
 import cats.effect.testkit.TestInstances
 import org.scalacheck.{Arbitrary, Gen}
-import org.scalacheck.ScalacheckShapeless._
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
@@ -14,11 +13,16 @@ import scala.util.Success
 class CachedTokenProviderSpec extends AnyFlatSpec with Matchers with ScalaCheckDrivenPropertyChecks with TestInstances {
   implicit val longArb: Arbitrary[Long] = Arbitrary(Gen.posNum[Long])
 
+  implicit val accessTokenArb: Arbitrary[AccessToken] = Arbitrary(for {
+    token <- Gen.alphaNumStr
+    expires <- Gen.chooseNum(0L, 3600L)
+  } yield AccessToken(token, "bearer", expires))
+
   it should "return a cached token when clock tick is less than expiry" in forAll {
     (token1: AccessToken, token2: AccessToken) =>
       implicit val ticker = Ticker()
 
-      val updatedToken1 = token1.copy(expiresIn = 2)
+      val updatedToken1 = token1.copy(expires_in = 2)
       val provider = testTokenProvider(updatedToken1, token2)
 
       val test = for {
@@ -27,9 +31,9 @@ class CachedTokenProviderSpec extends AnyFlatSpec with Matchers with ScalaCheckD
         _ <- IO.sleep(1.second)
         second <- cached.accessToken
       } yield {
-        first.copy(expiresIn = 1) should be(second)
+        first.copy(expires_in = 1) should be(second)
         first should be(updatedToken1)
-        if (token1.accessToken != token2.accessToken) first.accessToken should not be (token2.accessToken)
+        if (token1.access_token != token2.access_token) first.access_token should not be (token2.access_token)
         ()
       }
 
@@ -42,7 +46,7 @@ class CachedTokenProviderSpec extends AnyFlatSpec with Matchers with ScalaCheckD
     (token1: AccessToken, token2: AccessToken) =>
       implicit val ticker = Ticker()
 
-      val updatedToken1 = token1.copy(expiresIn = 1)
+      val updatedToken1 = token1.copy(expires_in = 1)
       val provider = testTokenProvider(updatedToken1, token2)
 
       val test = for {
