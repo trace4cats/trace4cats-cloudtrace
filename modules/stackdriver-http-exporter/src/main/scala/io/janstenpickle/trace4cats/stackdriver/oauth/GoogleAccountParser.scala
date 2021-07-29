@@ -9,7 +9,9 @@ import java.security.spec.PKCS8EncodedKeySpec
 import java.util.Base64
 import java.util.regex.Pattern
 
-import cats.syntax.either._
+import cats.effect.kernel.Sync
+import cats.syntax.flatMap._
+import cats.syntax.functor._
 import io.circe.Codec
 import io.circe.generic.semiauto._
 
@@ -27,12 +29,12 @@ object GoogleAccountParser {
     implicit final val codec: Codec[JsonGoogleServiceAccount] = deriveCodec
   }
 
-  final def parse(path: Path): Either[Throwable, GoogleServiceAccount] =
+  final def parse[F[_]](path: Path)(implicit F: Sync[F]): F[GoogleServiceAccount] =
     for {
-      string <- Either.catchNonFatal(new String(Files.readAllBytes(path)))
-      json <- io.circe.parser.parse(string)
-      serviceAccount <- json.as[JsonGoogleServiceAccount]
-      gsa <- Either.catchNonFatal {
+      string <- F.blocking(new String(Files.readAllBytes(path)))
+      json <- F.fromEither(io.circe.parser.parse(string))
+      serviceAccount <- F.fromEither(json.as[JsonGoogleServiceAccount])
+      gsa <- F.delay {
         val spec = new PKCS8EncodedKeySpec(loadPem(serviceAccount.private_key))
         val kf = KeyFactory.getInstance("RSA")
         GoogleServiceAccount(
