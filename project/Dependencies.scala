@@ -13,7 +13,7 @@ object Dependencies {
     val catsEffect = "3.1.1"
     val circe = "0.14.1"
     val collectionCompat = "2.5.0"
-    val googleCredentials = "0.27.0"
+    val googleCredentials = "1.0.0"
     val googleCloudTrace = "1.4.2"
     val http4s = "0.23.0-RC1"
     val jwt = "3.18.1"
