@@ -15,7 +15,7 @@ object Dependencies {
     val collectionCompat = "2.5.0"
     val googleCredentials = "1.0.0"
     val googleCloudTrace = "1.4.2"
-    val http4s = "0.23.0-RC1"
+    val http4s = "0.23.0"
     val jwt = "3.18.1"
     val log4cats = "2.1.1"
 
