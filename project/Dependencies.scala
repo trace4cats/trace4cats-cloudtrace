@@ -6,25 +6,16 @@ object Dependencies {
     val scala213 = "2.13.6"
     val scala3 = "3.0.1"
 
-    val trace4cats = "0.12.0-RC2+17-d73c7ff3"
-    val trace4catsExporterHttp = "0.12.0-RC2+4-69bfcea6"
+    val trace4cats = "0.12.0"
+    val trace4catsExporterHttp = "0.12.0"
 
-    val cats = "2.6.1"
-    val catsEffect = "3.1.1"
     val circe = "0.14.1"
     val collectionCompat = "2.5.0"
     val googleCredentials = "1.0.0"
     val googleCloudTrace = "1.4.2"
-    val http4s = "0.23.0-RC1"
+    val http4s = "0.23.0"
     val jwt = "3.18.1"
     val log4cats = "2.1.1"
-
-    val catsTestkitScalatest = "2.1.5"
-    val disciplineScalatest = "2.1.5"
-    val discipline = "1.1.5"
-    val scalaCheck = "1.15.4"
-    val scalaCheckShapeless = "1.3.0"
-    val scalaTest = "3.2.9"
 
     val kindProjector = "0.13.0"
     val betterMonadicFor = "0.3.1"
