@@ -22,16 +22,22 @@ final class RefreshableEffect[F[_], A] private (val value: F[A], val cancelToken
 
 object RefreshableEffect {
 
-  /** Create a refreshable effect which exposes the result of `refresh`, retries
-    * if refreshing the value fails.
+  /** Create a refreshable effect which exposes the result of `refresh`, retries if refreshing the value fails.
     *
-    * @param refreshInterval    how frequently to refresh the value
-    * @param onRefreshError     what to do if refreshing the value fails, error is always rethrown
-    * @param onRefreshSuccess   what to do when the value is successfully refresh, errors are ignored
-    * @param retryDelay         duration of delay before the first retry
-    * @param retryNextDelay     what value to delay before the next retry
-    * @param retryMaxAttempts   how many attempts to make before failing with last error
-    * @param onRetriesExhausted what to do if retrying to refresh the value fails, up to user handle failing their service
+    * @param refreshInterval
+    *   how frequently to refresh the value
+    * @param onRefreshError
+    *   what to do if refreshing the value fails, error is always rethrown
+    * @param onRefreshSuccess
+    *   what to do when the value is successfully refresh, errors are ignored
+    * @param retryDelay
+    *   duration of delay before the first retry
+    * @param retryNextDelay
+    *   what value to delay before the next retry
+    * @param retryMaxAttempts
+    *   how many attempts to make before failing with last error
+    * @param onRetriesExhausted
+    *   what to do if retrying to refresh the value fails, up to user handle failing their service
     */
   def createRetryResource[F[_]: Temporal, A](
     refresh: F[A],
