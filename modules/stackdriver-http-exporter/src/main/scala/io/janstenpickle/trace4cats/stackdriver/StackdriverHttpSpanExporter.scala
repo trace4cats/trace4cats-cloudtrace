@@ -2,7 +2,6 @@ package io.janstenpickle.trace4cats.stackdriver
 
 import cats.Foldable
 import cats.effect.kernel.{Async, Resource, Temporal}
-import cats.syntax.applicative._
 import cats.syntax.flatMap._
 import cats.syntax.functor._
 import cats.syntax.foldable._
@@ -37,8 +36,7 @@ object StackdriverHttpSpanExporter {
     serviceAccountPath: String,
     ec: Option[ExecutionContext] = None
   ): Resource[F, SpanExporter[F, G]] = for {
-    ec <- Resource.eval(ec.fold(Async[F].executionContext)(_.pure))
-    client <- BlazeClientBuilder[F](ec).resource
+    client <- ec.fold(BlazeClientBuilder[F])(BlazeClientBuilder[F].withExecutionContext).resource
     exporter <- Resource.eval(apply[F, G](projectId, serviceAccountPath, client))
   } yield exporter
 
@@ -46,8 +44,7 @@ object StackdriverHttpSpanExporter {
     serviceAccountName: String = "default",
     ec: Option[ExecutionContext] = None
   ): Resource[F, SpanExporter[F, G]] = for {
-    ec <- Resource.eval(ec.fold(Async[F].executionContext)(_.pure))
-    client <- BlazeClientBuilder[F](ec).resource
+    client <- ec.fold(BlazeClientBuilder[F])(BlazeClientBuilder[F].withExecutionContext).resource
     exporter <- Resource.eval(apply[F, G](client, serviceAccountName))
   } yield exporter
 
