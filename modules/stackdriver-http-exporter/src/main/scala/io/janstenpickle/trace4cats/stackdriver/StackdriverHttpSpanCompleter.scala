@@ -2,36 +2,16 @@ package io.janstenpickle.trace4cats.stackdriver
 
 import cats.effect.kernel.{Async, Resource}
 import fs2.Chunk
-import org.typelevel.log4cats.Logger
-import org.typelevel.log4cats.slf4j.Slf4jLogger
 import io.janstenpickle.trace4cats.`export`.{CompleterConfig, QueuedSpanCompleter}
 import io.janstenpickle.trace4cats.kernel.{SpanCompleter, SpanExporter}
 import io.janstenpickle.trace4cats.model.TraceProcess
 import io.janstenpickle.trace4cats.stackdriver.oauth.TokenProvider
 import io.janstenpickle.trace4cats.stackdriver.project.ProjectIdProvider
 import org.http4s.client.Client
-
-import scala.concurrent.ExecutionContext
+import org.typelevel.log4cats.Logger
+import org.typelevel.log4cats.slf4j.Slf4jLogger
 
 object StackdriverHttpSpanCompleter {
-  def serviceAccountBlazeClient[F[_]: Async](
-    process: TraceProcess,
-    projectId: String,
-    serviceAccountPath: String,
-    config: CompleterConfig = CompleterConfig(),
-    ec: Option[ExecutionContext] = None
-  ): Resource[F, SpanCompleter[F]] = makeSpanCompleter[F](process, config)(implicit logger =>
-    StackdriverHttpSpanExporter.serviceAccountBlazeClient[F, Chunk](projectId, serviceAccountPath, ec)
-  )
-
-  def blazeClient[F[_]: Async](
-    process: TraceProcess,
-    serviceAccountName: String = "default",
-    config: CompleterConfig = CompleterConfig(),
-    ec: Option[ExecutionContext] = None
-  ): Resource[F, SpanCompleter[F]] = makeSpanCompleter[F](process, config)(implicit logger =>
-    StackdriverHttpSpanExporter.blazeClient[F, Chunk](serviceAccountName, ec)
-  )
 
   def serviceAccount[F[_]: Async](
     process: TraceProcess,

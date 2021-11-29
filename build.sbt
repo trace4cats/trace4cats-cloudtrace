@@ -58,7 +58,6 @@ lazy val `stackdriver-http-exporter` =
         Dependencies.circeGeneric,
         Dependencies.circeParser,
         Dependencies.http4sCirce,
-        Dependencies.http4sBlazeClient,
         Dependencies.jwt,
         Dependencies.log4cats,
         Dependencies.trace4catsModel,
@@ -66,6 +65,6 @@ lazy val `stackdriver-http-exporter` =
         Dependencies.trace4catsExporterCommon,
         Dependencies.trace4catsExporterHttp
       ),
-      libraryDependencies ++= Seq(Dependencies.trace4catsTestkit).map(_ % Test)
+      libraryDependencies ++= Seq(Dependencies.http4sBlazeClient, Dependencies.trace4catsTestkit).map(_ % Test)
     )
     .dependsOn(`stackdriver-common`)
