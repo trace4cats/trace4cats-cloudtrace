@@ -15,7 +15,7 @@ object Dependencies {
     val googleCloudTrace = "2.1.1"
     val http4s = "0.23.7"
     val jwt = "3.18.3"
-    val log4cats = "2.1.1"
+    val log4cats = "2.2.0"
 
     val kindProjector = "0.13.2"
     val betterMonadicFor = "0.3.1"
