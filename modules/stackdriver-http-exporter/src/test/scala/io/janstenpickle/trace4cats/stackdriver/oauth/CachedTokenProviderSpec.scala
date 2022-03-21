@@ -1,14 +1,14 @@
 package io.janstenpickle.trace4cats.stackdriver.oauth
 
 import cats.effect.IO
-import cats.effect.testkit.TestInstances
+import cats.effect.testkit.{TestControl, TestInstances}
+import cats.effect.unsafe.implicits.global
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 
 import scala.concurrent.duration._
-import scala.util.Success
 
 class CachedTokenProviderSpec extends AnyFlatSpec with Matchers with ScalaCheckDrivenPropertyChecks with TestInstances {
   implicit val longArb: Arbitrary[Long] = Arbitrary(Gen.posNum[Long])
@@ -20,8 +20,6 @@ class CachedTokenProviderSpec extends AnyFlatSpec with Matchers with ScalaCheckD
 
   it should "return a cached token when clock tick is less than expiry" in forAll {
     (token1: AccessToken, token2: AccessToken) =>
-      implicit val ticker = Ticker()
-
       val updatedToken1 = token1.copy(expires_in = 2)
       val provider = testTokenProvider(updatedToken1, token2)
 
@@ -37,15 +35,11 @@ class CachedTokenProviderSpec extends AnyFlatSpec with Matchers with ScalaCheckD
         ()
       }
 
-      val result = test.unsafeToFuture()
-      ticker.ctx.tick(10.seconds)
-      result.value shouldEqual Some(Success(()))
+      TestControl.executeEmbed(test).unsafeRunSync()
   }
 
   it should "return a new token when clock tick is greater than expiry" in forAll {
     (token1: AccessToken, token2: AccessToken) =>
-      implicit val ticker = Ticker()
-
       val updatedToken1 = token1.copy(expires_in = 1)
       val provider = testTokenProvider(updatedToken1, token2)
 
@@ -60,9 +54,7 @@ class CachedTokenProviderSpec extends AnyFlatSpec with Matchers with ScalaCheckD
         ()
       }
 
-      val result = test.unsafeToFuture()
-      ticker.ctx.tick(10.seconds)
-      result.value shouldEqual Some(Success(()))
+      TestControl.executeEmbed(test).unsafeRunSync()
   }
 
   def testTokenProvider(first: AccessToken, second: AccessToken): TokenProvider[IO] =
