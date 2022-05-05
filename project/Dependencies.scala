@@ -14,7 +14,7 @@ object Dependencies {
     val googleCredentials = "1.6.0"
     val googleCloudTrace = "2.1.11"
     val http4s = "0.23.11"
-    val jwt = "3.19.1"
+    val jwt = "3.19.2"
     val log4cats = "2.3.1"
 
     val kindProjector = "0.13.2"
