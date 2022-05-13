@@ -31,7 +31,7 @@ class CachedTokenProviderSpec extends AnyFlatSpec with Matchers with ScalaCheckD
       } yield {
         first.copy(expires_in = 1) should be(second)
         first should be(updatedToken1)
-        if (token1.access_token != token2.access_token) first.access_token should not be (token2.access_token)
+        if (token1.access_token != token2.access_token) first.access_token should not be token2.access_token
         ()
       }
 

@@ -24,7 +24,7 @@ object CachedTokenProvider {
         override def accessToken: F[AccessToken] =
           ref.get.flatMap {
             case None => refreshToken
-            case Some((expiresAt, token)) =>
+            case Some(expiresAt, token) =>
               for {
                 now <- Clock[F].realTime
                 t <-
