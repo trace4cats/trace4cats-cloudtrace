@@ -47,9 +47,7 @@ lazy val `stackdriver-grpc-exporter` =
         Dependencies.collectionCompat,
         Dependencies.googleCredentials,
         Dependencies.googleCloudTrace,
-        Dependencies.trace4catsModel,
-        Dependencies.trace4catsKernel,
-        Dependencies.trace4catsExporterCommon
+        Dependencies.trace4catsCore,
       )
     )
     .dependsOn(`stackdriver-common`)
@@ -65,9 +63,7 @@ lazy val `stackdriver-http-exporter` =
         Dependencies.http4sCirce,
         Dependencies.jwt,
         Dependencies.log4cats,
-        Dependencies.trace4catsModel,
-        Dependencies.trace4catsKernel,
-        Dependencies.trace4catsExporterCommon,
+        Dependencies.trace4catsCore,
         Dependencies.trace4catsExporterHttp
       ),
       libraryDependencies ++= Seq(Dependencies.http4sBlazeClient, Dependencies.trace4catsTestkit).map(_ % Test)
