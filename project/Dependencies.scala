@@ -10,7 +10,7 @@ object Dependencies {
     val trace4catsExporterHttp = "0.13.1+14-639b5d65"
 
     val circe = "0.14.2"
-    val collectionCompat = "2.7.0"
+    val collectionCompat = "2.8.0"
     val googleCredentials = "1.7.0"
     val googleCloudTrace = "2.2.0"
     val http4s = "0.23.12"
