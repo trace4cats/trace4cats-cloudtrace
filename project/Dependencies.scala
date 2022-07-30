@@ -13,7 +13,11 @@ object Dependencies {
     val collectionCompat = "2.8.0"
     val googleCredentials = "1.8.1"
     val googleCloudTrace = "2.3.0"
+
     val http4s = "0.23.14"
+
+    val http4sBlaze = "0.23.14"
+
     val jwt = "4.0.0"
     val log4cats = "2.4.0"
 
@@ -31,7 +35,7 @@ object Dependencies {
   lazy val googleCredentials = "com.google.auth"        % "google-auth-library-credentials" % Versions.googleCredentials
   lazy val googleCloudTrace = "com.google.cloud"        % "google-cloud-trace"              % Versions.googleCloudTrace
   lazy val http4sCirce = "org.http4s"                  %% "http4s-circe"                    % Versions.http4s
-  lazy val http4sBlazeClient = "org.http4s"            %% "http4s-blaze-client"             % Versions.http4s
+  lazy val http4sBlazeClient = "org.http4s"            %% "http4s-blaze-client"             % Versions.http4sBlaze
   lazy val jwt = "com.auth0"                            % "java-jwt"                        % Versions.jwt
   lazy val log4cats = "org.typelevel"                  %% "log4cats-slf4j"                  % Versions.log4cats
 
