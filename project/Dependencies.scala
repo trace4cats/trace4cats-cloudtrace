@@ -6,11 +6,12 @@ object Dependencies {
     val scala213 = "2.13.8"
     val scala3 = "3.1.3"
 
-    val trace4cats = "0.13.1+67-a7d9b849"
+    val trace4cats = "0.13.1+114-c5a4b269"
+
     val trace4catsExporterHttp = "0.13.1+26-3c5516ed"
 
     val circe = "0.14.2"
-    val collectionCompat = "2.8.0"
+    val collectionCompat = "2.8.1"
     val googleCredentials = "1.8.1"
     val googleCloudTrace = "2.3.0"
     val http4s = "0.23.12"
