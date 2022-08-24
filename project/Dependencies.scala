@@ -15,7 +15,7 @@ object Dependencies {
     val googleCredentials = "1.8.1"
     val googleCloudTrace = "2.3.1"
 
-    val http4s = "0.23.14"
+    val http4s = "0.23.15"
 
     val http4sBlaze = "0.23.12"
 
