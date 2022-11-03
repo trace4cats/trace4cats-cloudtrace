@@ -13,7 +13,7 @@ object Dependencies {
     val circe = "0.14.2"
     val collectionCompat = "2.8.1"
     val googleCredentials = "1.8.1"
-    val googleCloudTrace = "2.3.7"
+    val googleCloudTrace = "2.5.0"
 
     val http4s = "0.23.14"
 
